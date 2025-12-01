@@ -1,0 +1,17 @@
+.idea
+.kotlin
+gradle
+.gradle
+build
+
+
+backend/build
+backend/src/main/resources/assets
+backend/src/main/resources/index.html
+backend/config.json
+
+frontend/.idea
+frontend/frontend.iml
+frontend/dist
+frontend/node_modules
+frontend/package-lock.json
