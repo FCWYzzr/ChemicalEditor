@@ -8,7 +8,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class LLMConfig(
+data class DeepSeekConfig(
     val apiKey: String
 )
 
@@ -21,12 +21,12 @@ data class ASRConfig(
 
 @Serializable
 data class Config(
-    val llm: LLMConfig,
+    val deepseek: DeepSeekConfig,
     val asr: ASRConfig
 )
 
 fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0", module = Application::module)
+    embeddedServer(Netty, 20120, "0.0.0.0", module = Application::module)
         .start(wait = true)
 }
 

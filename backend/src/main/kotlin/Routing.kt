@@ -17,10 +17,12 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
+import kotlinx.serialization.json.encodeToStream
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStreamReader
+import java.net.InetAddress
 
 private const val system =
 $$"""
@@ -44,28 +46,31 @@ private val systemMessage = ChatCompletionSystemMessageParam
     .build()
 
 @OptIn(ExperimentalSerializationApi::class)
+private val json = Json {
+    prettyPrint = true
+    prettyPrintIndent = "  "
+}
+
+@OptIn(ExperimentalSerializationApi::class)
 fun Application.configureRouting() {
     val cfg = File("config.json")
     if (!cfg.exists()){
         cfg.createNewFile()
-        cfg.writer().use {
-            it.write("""
-                {
-                    "llm": {
-                        "apiKey": ""
-                    },
-                    "asr": {
-                        "sid": "",
-                        "sk": "",
-                        "region": "ap-shanghai"
-                    }
-                }
-            """.trimIndent())
+        cfg.outputStream().use {
+            json.encodeToStream(
+                Config(
+                    DeepSeekConfig(""),
+                ASRConfig("", "", "ap-shanghai")
+            ), it)
         }
         System.err.println("请填写配置，按回车结束运行")
         readln()
         throw Exception("请填写配置")
     }
+
+    val addr = InetAddress.getLocalHost().hostAddress
+    @Suppress("HttpUrlsUsage")
+    println("服务开放到本地网络：http://${addr}:20120/")
 
     val config = Json.decodeFromStream<Config>(FileInputStream(cfg))
 
@@ -78,7 +83,7 @@ fun Application.configureRouting() {
     )
 
     val ai = OpenAIOkHttpClient.builder()
-        .apiKey(config.llm.apiKey)
+        .apiKey(config.deepseek.apiKey)
         .baseUrl("https://api.deepseek.com/v1")
         .build()
 

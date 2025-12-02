@@ -9,7 +9,7 @@
 - 下载预编译包并解压
 - 运行bin/backend
 - 首次运行会产生config.json
-  - llm配置[deepseek API密钥](https://platform.deepseek.com/api_keys)
+  - deepseek配置[deepseek API密钥](https://platform.deepseek.com/api_keys)
   - asr配置[腾讯云语音识别服务](https://cloud.tencent.com/act/pro/yuyin)
 - 配置完成后运行即可
 - 麦克风按钮点击一次开始录制，再次点击结束录制

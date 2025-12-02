@@ -9,6 +9,7 @@ backend/build
 backend/src/main/resources/assets
 backend/src/main/resources/index.html
 backend/config.json
+config.json
 
 frontend/.idea
 frontend/frontend.iml
