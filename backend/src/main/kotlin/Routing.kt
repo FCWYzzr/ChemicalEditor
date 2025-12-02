@@ -51,7 +51,7 @@ fun Application.configureRouting() {
         cfg.writer().use {
             it.write("""
                 {
-                    "deepseek": {
+                    "llm": {
                         "apiKey": ""
                     },
                     "asr": {
